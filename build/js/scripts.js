@@ -4,6 +4,10 @@ const API_KEY 	  = '82815f73e042c15ef2549c8f499a71d6';
 var search_results;
 
 jQuery( document ).ready(function() {
+
+	// Get search params from GET...
+	console.log(getUrlParameter('check'));
+
 	sticky_header_on_scroll();
 	select2_init();
 });
@@ -44,10 +48,12 @@ function select2_init() {
 				photos 			= search_results.rsp.photos.photo;
 				html 			= imgLoop(photos);
 				jQuery('.photos_wrapper .row').html(html);
+				// setTimeout(function() {
+				// 	jQuery('.flickr-img-wrapper').matchHeight()
+				// }, 300);
 				setTimeout(function() {
-					jQuery('.flickr-img-wrapper').matchHeight()
 					jQuery(window).trigger('resize');
-				}, 200);
+				}, 500);
 				return {
 					results : data
 				};
@@ -155,3 +161,18 @@ function xmlToJson(xml) {
 	}
 	return obj;
 }
+
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
