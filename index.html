@@ -9,22 +9,57 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="build/css/styles.css">
+        <link rel="stylesheet" href="assets/css/select2.min.css">
+        <link rel="stylesheet" href="assets/foundation/css/foundation.min.css">
+        <link rel="stylesheet" href="styles.css">
 
     </head>
     <body>
 
-		<header>
-			<h1>Flickr Search</h1>
+		<header class="header">
+			<section class="main_header_section">
+				<div class="row">
+					<div class="large-12 columns">
+						<div class="main_header">
+							<img src="img/flickr_logo_sml.png" alt="Flickr Logo">
+							<div class="header_inner">
+								<h1>Image Search</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 		</header>
 
 		<div class="search_wrapper">
-			<div id="flickr_search"></div>
+			<div class="row">
+				<div class="large-12 columns">
+					<div id="flickr_search"></div>
+				</div>
+			</div>
 		</div>
 
-		<div class="photos-wrapper">
+		<div class="searchbar_wrapper">
+			<div class="row">
+				<div class="large-12 columns">
+					<div class="searchbar">
 
+					</div>
+				</div>
+			</div>
 		</div>
+
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="photos_wrapper">
+					<div class="row large-up-3 medium-up-2 small-up-1">
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 
 
 		<footer>
@@ -33,6 +68,9 @@
 
 		<script src="assets/js/jquery-3.3.1.min.js"></script>
 		<script src="assets/js/select2.full.min.js"></script>
+		<script src="assets/js/jquery.matchHeight-min.js"></script>
+		<script src="assets/foundation/js/foundation.min.js"></script>
+		<script src="assets/js/js.cookie.js"></script>
         <script src="build/js/scripts.js"></script>
     </body>
 </html>

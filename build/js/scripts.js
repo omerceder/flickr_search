@@ -1,34 +1,53 @@
 const FLICKR_API  = "https://api.flickr.com/services/rest/";
-const API_KEY 	  = 'c0501ecb6aa7e477667f27b5ffe7402e';
+const API_KEY 	  = '82815f73e042c15ef2549c8f499a71d6';
 
 var search_results;
 
 jQuery( document ).ready(function() {
+	sticky_header_on_scroll();
 	select2_init();
 });
+
+function sticky_header_on_scroll() {
+	jQuery(window).on('scroll', function(){
+
+		var header 	  = jQuery('.header');
+		var search_wrapper = jQuery('.search_wrapper');
+		var scrollTop = jQuery(window).scrollTop();
+
+		if (scrollTop >= 90) {
+			header.addClass('fixed');
+			search_wrapper.addClass('fixed');
+		} else {
+			header.removeClass('fixed');
+			search_wrapper.removeClass('fixed');
+		}
+
+	});
+}
 
 function select2_init() {
 	jQuery('#flickr_search').select2({
 		ajax				: {
 			url 	 : FLICKR_API,
-			dataType : "XML",
 			type	 : "GET",
 			data 	 : function (params) {
+				// setCookie( params.term );
 				return {
 					method 		: 'flickr.photos.search',
 					api_key 	: API_KEY,
-					text 		: params.term,
-					// format 		: 'rest',
-					// auth_token  : '72157674179183727-37d3cb4726f7a9cc',
-					// api_sig 	: '060dbfdf7b026069b4306463410ee2cf'
+					text 		: params.term
 				};
 			},
 			processResults : function (data) {
 				search_results  = xmlToJson(data);
 				photos 			= search_results.rsp.photos.photo;
 				html 			= imgLoop(photos);
-				jQuery('.photos-wrapper').html(html);
-				console.log(html);
+				jQuery('.photos_wrapper .row').html(html);
+				setTimeout(function() {
+					jQuery('.flickr-img-wrapper').matchHeight()
+					jQuery(window).trigger('resize');
+				}, 200);
 				return {
 					results : data
 				};
@@ -37,10 +56,19 @@ function select2_init() {
 		placeholder 		: 'Search Flickr',
 		escapeMarkup 		: function (markup) { return markup; }, // let our custom formatter work
 		minimumInputLength 	: 3,
-		templateResult 		: formatRepo,
-		templateSelection 	: formatRepoSelection
+		dropdownParent 		: jQuery('.searchbar')
+		// templateResult 		: formatRepo,
+		// templateSelection 	: formatRepoSelection
 	});
 }
+
+// function setCookie(search_term) {
+//
+// 	document.cookie =
+//   'ppkcookie1="'+search_term+'"; expires=Thu, 2 Aug 2001 20:47:11 UTC; path=/'
+//
+// 	console.log(document.cookie);
+// }
 
 function imgLoop(img_array){
 	var html='';
@@ -51,9 +79,9 @@ function imgLoop(img_array){
 }
 
 function buildImgHtml(img_obj) {
-	var html = "<div class='flickr-img-wrapper' data-img='"+JSON.stringify(img_obj)+"'>"+
+	var html = "<div class=column><div class='flickr-img-wrapper' data-img='"+JSON.stringify(img_obj)+"'>"+
 			   	"<img src='"+imageUrl(img_obj)+"' alt='"+img_obj.title+"'>"+
-				"</div>";
+				"</div></div>";
 	return html;
 }
 
