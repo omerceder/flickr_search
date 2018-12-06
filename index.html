@@ -21,6 +21,27 @@
     <body>
 
 		<header class="header">
+
+			<div class="popup_table_wrapper">
+				<div class="popup_table">
+					<button class="popup_toggle" type="button" name="popup_close">
+						<img src="img/close_x.png" alt="Close">
+					</button>
+					<div class="table_row header_row">
+						<span class="table_cell term_cell">Term</span>
+						<span class="table_cell date_cell">Date</span>
+						<span class="table_cell results_cell">Number of Results</span>
+					</div>
+					<a href="#">
+						<div class="table_row">
+								<span class="table_cell term_cell">Term</span>
+								<span class="table_cell date_cell">Date</span>
+								<span class="table_cell results_cell">Number of Results</span>
+						</div>
+					</a>
+				</div>
+			</div>
+
 			<section class="main_header_section">
 				<div class="row">
 					<div class="large-12 columns">
@@ -29,56 +50,72 @@
 							<div class="header_inner">
 								<h1>Image Search</h1>
 							</div>
+							<div class="recent_search_btn_wrap">
+								<button class="btn-class popup_toggle" type="button" name="recent_srch">Recent Searches?</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</section>
+
 		</header>
 
-		<div class="search_wrapper">
-			<div class="row">
-				<div class="large-12 columns">
-					<div id="flickr_search"></div>
-				</div>
-			</div>
-		</div>
-
-		<div class="searchbar_wrapper">
-			<div class="row">
-				<div class="large-12 columns">
-					<div class="searchbar">
-
+		<section class="search_section">
+			<div class="search_wrapper">
+				<div class="row">
+					<div class="large-12 columns">
+						<div id="flickr_search"></div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="row">
-			<div class="large-12 columns">
-				<div class="photos_wrapper">
-					<div class="row large-up-3 medium-up-2 small-up-1">
+			<div class="searchbar_wrapper">
+				<div class="row">
+					<div class="large-12 columns">
+						<div class="searchbar">
 
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 
+		<section class="photos_section">
+			<div class="row">
+				<div class="large-12 columns">
+					<div class="photos_wrapper">
+						<div class="photos_header_wrapper">
+							<h2>
+								<div class="header-left">
+									<span class="search_term"></span>
+								</div>
+								<div class="header-right">
+									<span class="number_of_results"></span>
+									<span class="number_of_results_text"> Pictures Found</span>
+								</div>
+							</h2>
+						</div>
+						<div class="row large-up-3 medium-up-2 small-up-1">
 
-
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
 		<footer>
-
+			<div class="row">
+				<div class="large-12 columns">
+					<div class="footer_cp_wrapper">
+						<span class="cp">© Omer Ceder</span>
+					</div>
+				</div>
+			</div>
 		</footer>
 
 		<script src="assets/js/jquery-3.3.1.min.js"></script>
 		<script src="assets/js/select2.full.min.js"></script>
-		<script src="assets/js/jquery.matchHeight-min.js"></script>
 		<script src="assets/foundation/js/foundation.min.js"></script>
-		<script src="assets/js/js.cookie.js"></script>
         <script src="build/js/scripts.js"></script>
     </body>
 </html>
-
-<div class="flickr-img-wrapper" data-img="">
-	<img src="" alt="">
-</div>

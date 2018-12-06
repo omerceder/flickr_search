@@ -6,6 +6,7 @@
 
 $flickr_black : #151517f2;
 $flickr_grey  : #f3f5f6;
+$flickr_blue  : #0162db;
 
 // Styles
 
@@ -18,13 +19,27 @@ h1 {
 	font-size: 4rem;
 }
 
+.btn-class {
+	cursor: pointer;
+	display: inline-block;
+	background-color: $flickr_blue;
+	color: $flickr_black;
+	padding: 0.5rem;
+	border-radius: 5px;
+	@include trans(0.2);
+	&:focus,
+	&:hover {
+		@include box-shadow(0px 1px 5px 0px $flickr_black);
+	}
+}
+
 .header {
 	background-color: $flickr_grey;
 	margin-bottom: 5vh;
 	&.fixed {
 		position: fixed;
 		width: 100%;
-		z-index: 9;
+		z-index: 3;
 		.main_header {
 			padding: 2vh 0;
 			@include flex-direction(row);
@@ -34,7 +49,59 @@ h1 {
 					@include trans(0.2s);
 				}
 			}
+			.recent_search_btn_wrap {
+				top: 50%;
+			}
 		}
+	}
+}
+
+.popup_table_wrapper {
+	position: relative;
+	.popup_table {
+		.popup_toggle {
+			cursor: pointer;
+			position: absolute;
+		    right: 20px;
+		    top: 15px;
+		}
+		position: absolute;
+		background-color: $flickr_grey;
+		border-radius: 25px;
+		z-index: 4;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+		top: 20vh;
+		height: 0;
+		width: 0;
+		padding: 2.5rem;
+		visibility: hidden;
+		font-size: 0;
+		@include trans(0.2s);
+		@include box-shadow(0px 1px 5px 0px $flickr_black);
+		.popup_toggle {
+			display: none;
+		}
+		&.visible {
+			width: 40vw;
+			height: 40vh;
+			visibility: visible;
+			font-size: inherit;
+			.popup_toggle {
+				display: block;
+			}
+		}
+	}
+}
+
+.table_row {
+	margin-bottom: 10px;
+	@include flexbox;
+	@include justify-content(space-between);
+	&.header_row {
+		font-weight: 700;
+		border-bottom: 1px solid #000;
 	}
 }
 
@@ -44,7 +111,7 @@ h1 {
 }
 
 .photos_wrapper {
-	margin-top: 7vh;
+	margin-top: 2vh;
 	min-height: 2vh;
 }
 
@@ -53,21 +120,29 @@ h1 {
 }
 
 .main_header {
-	padding: 2vh 0 5vh 0;
+	position: relative;
+	padding: 2vh 0;
 	@include flex-direction(column);
 	@include align-items(center);
+	@include flexbox;
 	.header_inner {
 		position: relative;
 		padding-left: 1rem;
 		h1 {
 			position: relative;
 			line-height: 1;
-			max-height: 50px;
 			margin: 0;
-			top: 8px;
 		}
 	}
-	@include flexbox;
+	.recent_search_btn_wrap {
+		position: absolute;
+		font-family: "Oswald";
+		top: 105%;
+		right: 0;
+		button {
+			@include trans(0.2s);
+		}
+	}
 }
 
 .flickr-img-wrapper {
@@ -90,9 +165,36 @@ h1 {
 	&.fixed {
 		position: fixed;
 		top: 10vh;
-		z-index: 9;
+		z-index: 2;
 		margin: 1vh auto 0 auto;
 		left: 0;
 		right: 0;
+	}
+}
+
+.photos_header_wrapper {
+	margin-bottom: 2vh;
+	h2 {
+		@include flexbox;
+		@include justify-content(space-between);
+		.header-left,
+		.header-right {
+			@include flexbox;
+		}
+		.number_of_results_text {
+			display: none;
+			margin-left: 1rem;
+			&.visible {
+				display: block;
+			}
+		}
+	}
+}
+
+.footer_cp_wrapper {
+	text-align: right;
+	.cp {
+		font-size: 0.8rem;
+		color: #aaa;
 	}
 }

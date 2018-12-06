@@ -1,16 +1,24 @@
 const FLICKR_API  = "https://api.flickr.com/services/rest/";
 const API_KEY 	  = '82815f73e042c15ef2549c8f499a71d6';
 
+var search_term;
 var search_results;
+var number_of_results;
+var current_datetime = new Date();
+
+var search_obj = {};
 
 jQuery( document ).ready(function() {
-
-	// Get search params from GET...
-	console.log(getUrlParameter('check'));
-
-	sticky_header_on_scroll();
 	select2_init();
+	popup_toggle();
+	sticky_header_on_scroll();
 });
+
+function popup_toggle() {
+	jQuery('.popup_toggle').on('click', function(){
+		jQuery('.popup_table').toggleClass('visible');
+	});
+}
 
 function sticky_header_on_scroll() {
 	jQuery(window).on('scroll', function(){
@@ -36,45 +44,41 @@ function select2_init() {
 			url 	 : FLICKR_API,
 			type	 : "GET",
 			data 	 : function (params) {
-				// setCookie( params.term );
+				search_term = params.term;
 				return {
 					method 		: 'flickr.photos.search',
 					api_key 	: API_KEY,
-					text 		: params.term
+					text 		: search_term
 				};
 			},
 			processResults : function (data) {
-				search_results  = xmlToJson(data);
-				photos 			= search_results.rsp.photos.photo;
-				html 			= imgLoop(photos);
-				jQuery('.photos_wrapper .row').html(html);
-				// setTimeout(function() {
-				// 	jQuery('.flickr-img-wrapper').matchHeight()
-				// }, 300);
-				setTimeout(function() {
-					jQuery(window).trigger('resize');
-				}, 500);
+				search_results    = xmlToJson(data);
+				photos 			  = search_results.rsp.photos.photo;
+				number_of_results = search_results.rsp.photos.total;
+				html 			  = imgLoop(photos);
+
+				jQuery('.search_term').html(search_term); // Print the Search Term
+				jQuery('.number_of_results').html( new Intl.NumberFormat().format(number_of_results) ); // Print the # of Results (with comma)
+				jQuery('.number_of_results_text').addClass('visible');  // Show Header Text
+				jQuery('.photos_wrapper .row').html(html); // Print Images on DOM
+
+				search_obj = {
+					term 			: search_term,
+					results 		: number_of_results,
+					search_datetime : current_datetime
+				}
+
 				return {
 					results : data
 				};
 			}
 		},
 		placeholder 		: 'Search Flickr',
-		escapeMarkup 		: function (markup) { return markup; }, // let our custom formatter work
+		escapeMarkup 		: function (markup) { return markup; },
 		minimumInputLength 	: 3,
 		dropdownParent 		: jQuery('.searchbar')
-		// templateResult 		: formatRepo,
-		// templateSelection 	: formatRepoSelection
 	});
 }
-
-// function setCookie(search_term) {
-//
-// 	document.cookie =
-//   'ppkcookie1="'+search_term+'"; expires=Thu, 2 Aug 2001 20:47:11 UTC; path=/'
-//
-// 	console.log(document.cookie);
-// }
 
 function imgLoop(img_array){
 	var html='';
@@ -94,34 +98,6 @@ function buildImgHtml(img_obj) {
 function imageUrl(img_obj) {
 	var img_url = 'https://farm'+img_obj.farm+'.staticflickr.com/'+img_obj.server+'/'+img_obj.id+'_'+img_obj.secret+'.jpg';
 	return img_url;
-}
-
-function formatRepo(repo) {
-	if (repo.loading) {
-		return repo.text;
-	}
-
-	var markup = "<div class='select2-result-repository clearfix'>" +
-		"<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
-		"<div class='select2-result-repository__meta'>" +
-		"<div class='select2-result-repository__title'>" + repo.full_name + "</div>";
-
-	if (repo.description) {
-		markup += "<div class='select2-result-repository__description'>" + repo.description + "</div>";
-	}
-
-	markup += "<div class='select2-result-repository__statistics'>" +
-		"<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.forks_count + " Forks</div>" +
-		"<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.stargazers_count + " Stars</div>" +
-		"<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.watchers_count + " Watchers</div>" +
-		"</div>" +
-		"</div></div>";
-
-	return markup;
-}
-
-function formatRepoSelection(repo) {
-	return repo.full_name || repo.text;
 }
 
 function xmlToJson(xml) {
@@ -175,4 +151,4 @@ function getUrlParameter(sParam) {
             return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
         }
     }
-};
+}
